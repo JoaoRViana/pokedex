@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import getSomePokemons from '../Services/getPokemons'
+import { Link } from 'react-router-dom'
+import { getSomePokemons } from '../Services/getPokemons'
 
 export default class ListNamePokemons extends Component {
   state = {
@@ -35,10 +36,13 @@ export default class ListNamePokemons extends Component {
   render() {
     const {listPokemons} = this.state
     return (
-      <div className='allPokemons'>{listPokemons.map((e,index)=>(
-        <div key={index} className='pokemonlist'>
-          <h4>{e.name}</h4>
+      <div className='allPokemons'>
+        {listPokemons.map((e,index)=>(
+        <div key={index} className='pokemonlist'><Link to={`/pokemon/${e.pokedexNumber}`}>
+          <h4>{e.pokedexNumber}.{e.name}</h4>
           <img src={e.sprite} alt={e.name} className='pokeImgHome'/>
+        </Link>
+          
         </div>
       ))}
       <button onClick={this.changePage} value={+42}>NextPage</button>
