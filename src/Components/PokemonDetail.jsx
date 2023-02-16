@@ -13,6 +13,8 @@ export default class PokemonDetail extends Component {
     types:[],
     stats:[],
     imgType:'',
+    description:[],
+    habitat:'',
   }
   componentDidMount(){
     this.dataPokemon()
@@ -21,7 +23,11 @@ export default class PokemonDetail extends Component {
   dataPokemon = async() =>{
     const {id} = this.props.match.params
     const data = await getPokemon(id);
-    
+    const api = await fetch(data.species.url)
+    const dataSpecies = await api.json()
+    const flavor_text_entries = dataSpecies.flavor_text_entries;
+    const find = flavor_text_entries.map((e,index)=>(e.language.name==='en' && index%2===1 && index<8?e.flavor_text:false))
+    const textDescriptions = find.filter((e)=>(e!==false))
     this.setState({
       name:data.name,
       sprite:data.sprites.versions['generation-v']['black-white']['animated']['front_default'],
@@ -30,6 +36,8 @@ export default class PokemonDetail extends Component {
       weight:(data.weight/10),
       types:data.types,
       stats:data.stats,
+      description:textDescriptions,
+      habitat:dataSpecies.habitat.name,
       
     },()=>{
       this.abilityDescription()
@@ -58,7 +66,7 @@ export default class PokemonDetail extends Component {
     
   }
   render() {
-    const {name,sprite,descriptionAbilities,height,weight,types,stats} =this.state
+    const {name,sprite,descriptionAbilities,height,weight,types,stats,description,habitat} =this.state
     return (
       
       <div>
@@ -68,21 +76,32 @@ export default class PokemonDetail extends Component {
           <div className='pokeCardHeader'>
           {types.map((e,index)=>(
           <div key={index}>
-            <div className='pokeType' style={{ 
-    backgroundImage: `url(${process.env.PUBLIC_URL + `/types/${e.type.name}.png`})` 
+            <div className='pokeType background' style={{ 
+              backgroundImage: `url(${process.env.PUBLIC_URL + `/types/${e.type.name}.png`})` 
         }}></div>
           </div>
         ))}
           </div>
           
           </div>
-        <img src={sprite} alt={name} className='pokeImgInCard'></img>
-        <div className='pokeCardHeader'>
-          <h3 className='pokeAttr'>height {height}m</h3>
-          <h3 className='pokeAttr'>weight {weight}kg</h3>
-        </div>
-        </div>
+          <div className='pokeBackground' style={{ 
+              backgroundImage: `url(${process.env.PUBLIC_URL + `/habitats/${habitat}.png`})` 
+        }}>
+          <img src={sprite} alt={name} className='pokeImgInCard' ></img>
+          </div>
         
+          <div className='pokeCardHeader'>
+            <h3 className='pokeAttr'>height {height}m</h3>
+            <h3 className='pokeAttr'>weight {weight}kg</h3>
+          </div>
+        </div>
+        <div>
+          {description.map((e,index)=>(
+            <div key={index}>
+              <h4>{e}</h4>
+            </div>
+          ))}
+        </div>
         
         {descriptionAbilities.map((e)=>(
           <div key={e.name}>
