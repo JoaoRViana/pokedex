@@ -18,3 +18,30 @@
 .pokeImgHome{
   max-width: 90px;
 }
+
+.pokeCard {
+  display: inline;
+  float: right;
+  width: 400px;
+  border: 2px solid black;
+  padding: 5px;
+  height: 800px;
+}
+.pokeCardHeader {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  height: 140px;
+}
+
+.pokeImgInCard {
+  width: 100%;
+}
+
+.pokeType{
+  width: 80px;
+  height: 80px;
+  background-size: contain;
+  background-repeat: no-repeat;
+}

@@ -1,17 +1,17 @@
 
-export const getSomePokemons = async(first,last) =>{
-  const api =  await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${first}&limit=${last}`)
+export const getSomePokemons = async(first,limit) =>{
+  const api =  await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${first}&limit=${limit}`)
   const data = await api.json()
   let arrPokemons = data.results
   const somePokemons = []
-  for(let i = first;i<last;i++){
+  for(let i = 0;i<limit;i++){
     const api = await fetch(arrPokemons[i].url)
     const data = await api.json()    
     const obj = {
       name:data.name,
       sprite:data.sprites.versions['generation-vii']['icons']['front_default'],
       api: api,
-      pokedexNumber:(i+1),
+      pokedexNumber:data.id,
     }
     somePokemons.push(obj)
   }

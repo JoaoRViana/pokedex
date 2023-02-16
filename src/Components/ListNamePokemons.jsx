@@ -6,29 +6,27 @@ export default class ListNamePokemons extends Component {
   state = {
     listPokemons:[],
     min:0,
-    max:42,
+    limit:42,
   }
 
   componentDidMount(){
     this.listing()
   }
   changePage = ({target}) =>{
-    const {min,max} = this.state;
+    const {min} = this.state;
     const newmin = +(min) + +(target.value)
-    const newmax = +(max) + +(target.value)
     
     if(newmin>=0){
       this.setState({
         min: newmin,
-        max: newmax,
       },()=>{
         this.listing()
       })
     }
   }
   listing = async () =>{
-    const{min,max} = this.state;
-    const pokemons = await getSomePokemons(min,max)
+    const{min,limit} = this.state;
+    const pokemons = await getSomePokemons(min,limit)
     this.setState({
       listPokemons:pokemons
     })

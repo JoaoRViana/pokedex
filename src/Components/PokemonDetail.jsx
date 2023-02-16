@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { getPokemon } from '../Services/getPokemons'
 
+
 export default class PokemonDetail extends Component {
   state = {
     name:'',
@@ -10,22 +11,29 @@ export default class PokemonDetail extends Component {
     height:'',
     weight:'',
     types:[],
+    stats:[],
+    imgType:'',
   }
   componentDidMount(){
     this.dataPokemon()
   }
+
   dataPokemon = async() =>{
     const {id} = this.props.match.params
     const data = await getPokemon(id);
+    
     this.setState({
       name:data.name,
       sprite:data.sprites.versions['generation-v']['black-white']['animated']['front_default'],
       abilities:data.abilities,
       height:(data.height/10),
       weight:(data.weight/10),
-      types:data.types
+      types:data.types,
+      stats:data.stats,
+      
     },()=>{
       this.abilityDescription()
+
     })
   }
   abilityDescription=()=>{
@@ -50,23 +58,44 @@ export default class PokemonDetail extends Component {
     
   }
   render() {
-    const {name,sprite,descriptionAbilities,height,weight,types} =this.state
+    const {name,sprite,descriptionAbilities,height,weight,types,stats} =this.state
     return (
+      
       <div>
-        <h1>{name}</h1>
-        {types.map((e)=>(
-          <h2>{e.type.name}</h2>
-        ))}
-        <img src={sprite} alt={name}></img>
-        {descriptionAbilities.map((e,index)=>(
+        <div className='pokeCard'>
+          <div className='pokeCardHeader'>
+          <h1 className='pokeName'>{name}</h1>
+          <div className='pokeCardHeader'>
+          {types.map((e,index)=>(
           <div key={index}>
-            {console.log(e.hide)}
+            <div className='pokeType' style={{ 
+    backgroundImage: `url(${process.env.PUBLIC_URL + `/types/${e.type.name}.png`})` 
+        }}></div>
+          </div>
+        ))}
+          </div>
+          
+          </div>
+        <img src={sprite} alt={name} className='pokeImgInCard'></img>
+        <div className='pokeCardHeader'>
+          <h3 className='pokeAttr'>height {height}m</h3>
+          <h3 className='pokeAttr'>weight {weight}kg</h3>
+        </div>
+        </div>
+        
+        
+        {descriptionAbilities.map((e)=>(
+          <div key={e.name}>
             <h1>{e.name} {e.hide?'hide ability':''}</h1>
             <h2>{e.description}</h2>
           </div>
         ))}
-        <h3>height {height}m</h3>
-        <h3>weight {weight}kg</h3>
+       
+        {stats.map((e)=>(
+          <div key={e.stat.name}>
+            <h3>{e.stat.name} {e.base_stat}</h3>
+          </div>
+        ))}
       </div>
     )
   }
