@@ -1,3 +1,9 @@
+@font-face {
+  font-family: 'Rocher';
+  src: url(https://assets.codepen.io/9632/RocherColorGX.woff2);
+}
+@import url("https://fonts.googleapis.com/css2?family=Audiowide&display=swap");
+
 .pokemonlist{
   display: flex;
   text-align: center;
@@ -13,7 +19,7 @@
 .allPokemons{
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: flex-start;
 }
 .pokeImgHome{
   max-width: 90px;
@@ -23,18 +29,27 @@
   display: inline;
   float: right;
   width: 400px;
-  border: 2px solid black;
-  padding: 5px;
-  height: 800px;
+  margin: 30px;
+  transform: skew(0deg,20deg);
+  background-color: rgba(34, 59, 34, 0.2);
 }
 .pokeCardHeader {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;
-  height: 140px;
+  height: 100px;
 }
+.textStyled{
+  font-family: Rocher;
+  text-shadow: 0 -1px 4px #3b3131, 0 -2px 10px rgb(158, 158, 84), 0 -10px 20px #c77a2e, 0 -18px 40px rgb(141, 99, 99);
+}
+.textDescriptions{
+  font-family: "Audiowide", cursive;
+  color: #333;
+  text-shadow: -0.01em -0.01em 0.01em #000;
 
+}
 .pokeBackground {
   display: flex;
   justify-content: space-around;
@@ -47,10 +62,72 @@
 .pokeImgInCard{
   width: 70%;
   height: 70%;
+  
 }
 .pokeType{
   width: 80px;
   height: 80px;
   background-size: contain;
   background-repeat: no-repeat;
+}
+
+.pokeAbilities,.pokeStats,.pokeDescriptions{
+  text-align: center;
+}
+
+.header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 100px;
+  margin-bottom: 50px;
+}
+.inputDiv{
+  display: flex;
+  align-items: center;
+}
+.inputUser{
+  text-align: center;
+
+}
+.headerButton{
+  background: none;
+  border: none;
+  font-size: 20px;
+}
+.inputButton{
+  margin: 10px;
+  background-image: url('../public/menu/download2\ \(1\).png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 25px;
+  height: 25px;
+}
+.inputButton:hover{
+  cursor: pointer;
+  animation: ballRotate 0.4s infinite linear;
+}
+
+@keyframes ballRotate{
+  to{transform: rotateZ(360deg)}
+}
+
+.listGenerations {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  padding: 20px;
+  margin:20px;
+}
+.region{
+  text-align: center;
+  margin:20px;
+  width: 320px;
+  border: solid black 2px;
+}
+
+.links{
+  text-decoration: none;
+  color: #333;
+  text-shadow: -0.01em -0.01em 0.01em #000;
 }
