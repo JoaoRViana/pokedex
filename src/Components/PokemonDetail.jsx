@@ -76,7 +76,6 @@ export default class PokemonDetail extends Component {
           }
         })
       }
-      
       const obj = {
         name: name,
         description: description,
@@ -96,7 +95,7 @@ export default class PokemonDetail extends Component {
         <Header />
         <div className='pokeCard'>
           <div className='pokeCardHeader textStyled'>
-            <h1 className='pokeName'>{name}</h1>
+            <h1 className='pokeName'>{name.toLocaleUpperCase()}</h1>
             <div className='pokeCardHeader'>
               {types.map((e, index) => (
                 <div key={index}>
@@ -113,13 +112,15 @@ export default class PokemonDetail extends Component {
           }}>
             <img src={sprite} alt={name} className='pokeImgInCard' ></img>
           </div>
-
+            
           <div className='pokeCardHeader textDescriptions'>
             <h3 className='pokeAttr'>height {height}m</h3>
             <h3 className='pokeAttr'>weight {weight}kg</h3>
           </div>
         </div>
-        <div className='pokeDescriptions textDescriptions'>
+        <div className='pokeDescriptions textDescriptions containerDescriptions'>
+          <h1>{name.toLocaleUpperCase()}</h1>
+          <h2>Type {types.map((e)=>(` ${e.type.name}`))}</h2>
           {description.map((e, index) => (
             <div key={index}>
               <h4>{e}</h4>

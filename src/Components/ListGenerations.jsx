@@ -36,13 +36,14 @@ export default class ListGenerations extends Component {
       <div>
         <div className='listGenerations'>
             {generations.map((e,index)=>(
-                <div key={e.name} className='region textDescriptions'>
-                    <Link className='links' to={ {
+                <div key={e.name} className=''>
+                    <Link className='links region textDescriptions' to={ {
                     pathname: `/generations/${index+1}`,
                     state: { gen: generations[index] } } }
-                    >
-                    <h1>{e.name}</h1>
-                    <h3>{e.pokemons} Pokemons</h3>
+                    ><div>
+                        <h1>{e.name}</h1>
+                        <h3>{e.pokemons} Pokemons</h3>
+                    </div>
                     </Link>
                 </div>
             ))}
