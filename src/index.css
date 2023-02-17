@@ -131,3 +131,14 @@
   color: #333;
   text-shadow: -0.01em -0.01em 0.01em #000;
 }
+.loading {
+  background-image: url('../public/menu/pikachu-running.gif');
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 300px;
+  height: 300px;
+}
+.loadingComponent {
+  text-align: center;
+  width: 300px;
+}

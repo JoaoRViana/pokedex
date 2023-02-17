@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import Loading from './Loading';
 
 export default class Header extends Component {
     state = {
@@ -18,6 +19,7 @@ export default class Header extends Component {
     if(clicked === ''){document.location.reload()}
     return (
       <div>
+        {/* <Loading /> */}
         <div className='header'>
             <Link to='/'>
                 <button className='textDescriptions headerButton'>Home</button>
