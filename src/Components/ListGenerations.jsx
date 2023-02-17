@@ -25,8 +25,9 @@ export default class ListGenerations extends Component {
             first = data.pokemon_species.length + first
             arr.push(obj)
             this.setState({
-                generations:arr
+                generations:arr,
             })
+
         })
     }
   render() {
@@ -34,9 +35,12 @@ export default class ListGenerations extends Component {
     return (
       <div>
         <div className='listGenerations'>
-            {generations.map((e)=>(
+            {generations.map((e,index)=>(
                 <div key={e.name} className='region textDescriptions'>
-                    <Link to={`/generations/${e.first}`} className='links'>
+                    <Link className='links' to={ {
+                    pathname: `/generations/${index+1}`,
+                    state: { gen: generations[index] } } }
+                    >
                     <h1>{e.name}</h1>
                     <h3>{e.pokemons} Pokemons</h3>
                     </Link>

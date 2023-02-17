@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { getPokemon } from '../Services/getPokemons'
+import { getPokemon ,setInfo } from '../Services/getPokemons'
 import Header from './Header'
 
 
@@ -29,22 +29,19 @@ export default class PokemonDetail extends Component {
     const flavor_text_entries = dataSpecies.flavor_text_entries;
     const find = flavor_text_entries.map((e, index) => (e.language.name === 'en' && index % 2 === 1 && index < 8 ? e.flavor_text : false))
     const textDescriptions = find.filter((e) => (e !== false))
-    let habitat =''
-    try {
-      habitat=dataSpecies.habitat.name
-    } catch (error) {
-      habitat = 'grassland'
-    }
+
+    const hab = setInfo(dataSpecies,'grassland',['habitat','name'])
+    const spr = setInfo(data.sprites,data.sprites.front_default,['versions','generation-v','black-white','animated','front_default'])
     this.setState({
       name: data.name,
-      sprite: data.sprites.versions['generation-v']['black-white']['animated']['front_default'],
+      sprite: spr,
       abilities: data.abilities,
       height: (data.height / 10),
       weight: (data.weight / 10),
       types: data.types,
       stats: data.stats,
       description: textDescriptions,
-      habitat: habitat,
+      habitat: hab,
     }, () => {
       this.abilityDescription()
 
@@ -58,7 +55,28 @@ export default class PokemonDetail extends Component {
       const url = e.ability.url;
       const api = await fetch(url);
       const data = await api.json();
-      const description = data['effect_entries'].map((e) => (e.language.name === 'en' ? e.effect : false))
+      let description = []
+      let a = 0
+      if(data['effect_entries'].length === 0){
+        description = data['flavor_text_entries'].map((e) => {
+          if(a === 0){
+            if(e.language.name === 'en'){
+              a = 1
+              return e.flavor_text
+            }
+          }
+        })
+      }else{
+        description = data['effect_entries'].map((e) => {
+          if(a ===0){
+            if(e.language.name === 'en'){
+              a = 1
+              return e.effect
+            }
+          }
+        })
+      }
+      
       const obj = {
         name: name,
         description: description,

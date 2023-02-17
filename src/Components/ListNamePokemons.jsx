@@ -11,23 +11,13 @@ export default class ListNamePokemons extends Component {
   }
 
   componentDidMount(){
-    const { first } = this.props.match.params
+    const { first,pokemons } = this.props.location.state.gen
     this.setState({
-      min:first
+      min:first,
+      limit: pokemons,
     },()=>{
       this.listing()
     })
-  }
-  changePage = ({target}) =>{
-    const {min} = this.state;
-    const newmin = +(min) + +(target.value)
-    if(newmin>=0){
-      this.setState({
-        min: newmin,
-      },()=>{
-        this.listing()
-      })
-    }
   }
   listing = async () =>{
     const{min,limit} = this.state;
@@ -50,8 +40,6 @@ export default class ListNamePokemons extends Component {
         </div>
       ))}
       </div>
-        <button onClick={this.changePage} value={+42}>NextPage</button>
-        <button onClick={this.changePage} value={-42}>PreviousPage</button>
       </div>
       
     )
