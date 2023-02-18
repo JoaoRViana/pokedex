@@ -31,7 +31,13 @@ export default class Header extends Component {
             <Link to='/favorites'>
                 <button className='textDescriptions headerButton'>Favorites</button>
             </Link>
-
+        </div>
+        <div className='dropDown'>
+            <button className='arrowDropDown'>
+            <div className='contact'>
+                <a className='gitHub' href='https://github.com/JoaoRViana' target='_blank'></a>
+                <a className='linkedin' href='https://www.linkedin.com/in/joaoricardoviana/'target='_blank'></a>
+            </div></button>
         </div>
       </div>
     )

@@ -20,7 +20,8 @@ export default class PokemonDetail extends Component {
     habitat: '',
     api:'',
     notFound:false,
-    loading:true
+    loading:true,
+    id:'',
   }
   componentDidMount() {
     this.dataPokemon()
@@ -53,6 +54,7 @@ export default class PokemonDetail extends Component {
       description: textDescriptions,
       habitat: hab,
       pokemonInfos:data,
+      id:data.id,
     }, () => {
       this.abilityDescription()
     })
@@ -131,7 +133,7 @@ export default class PokemonDetail extends Component {
     })
   }
   render() {
-    const { name, sprite, descriptionAbilities, height, weight, types, stats, description, habitat,notFound,loading } = this.state
+    const { name, sprite, descriptionAbilities, height, weight, types, stats, description, habitat,notFound,loading,id } = this.state
     if(loading){return(
       <Loading />
     )}
@@ -141,7 +143,10 @@ export default class PokemonDetail extends Component {
         <Header />
         <div className='pokeCard'>
           <div className='pokeCardHeader textStyled'>
-            <h1 className='pokeName'>{name.toLocaleUpperCase()}</h1>
+            <div className='pokeName'>
+              <h3>Nº{id}</h3>
+              <h1 >{name.toLocaleUpperCase()}</h1>
+            </div>
             <div className='pokeCardHeader'>
               {types.map((e, index) => (
                 <div key={index}>
@@ -162,8 +167,10 @@ export default class PokemonDetail extends Component {
             <img src={sprite} alt={name} className='pokeImgInCard' ></img>
           </div>
           <div className='pokeCardHeader textDescriptions'>
-            <h3 className='pokeAttr'>height {height}m</h3>
-            <h3 className='pokeAttr'>weight {weight}kg</h3>
+            <div className='pokeAttrContainer'>
+              <h3 className='pokeAttr'>height {height}m</h3>
+              <h3 className='pokeAttr'>weight {weight}kg</h3>
+            </div>
           </div>
         </div>
         <div className='pokeDescriptions textDescriptions containerDescriptions'>
