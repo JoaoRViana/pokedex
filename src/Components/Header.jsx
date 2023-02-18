@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import Loading from './Loading';
 
 export default class Header extends Component {
     state = {
@@ -30,7 +29,10 @@ export default class Header extends Component {
                     <button className='headerButton inputButton' onClick={this.handleChange} id='clicked'></button>
                 </Link>
             </div>
-            <button className='textDescriptions headerButton'>Favorites</button>
+            <Link to='/favorites'>
+                <button className='textDescriptions headerButton'>Favorites</button>
+            </Link>
+
         </div>
       </div>
     )

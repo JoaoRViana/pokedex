@@ -16,9 +16,11 @@ export default class PokemonDetail extends Component {
     imgType: '',
     description: [],
     habitat: '',
+    api:''
   }
   componentDidMount() {
     this.dataPokemon()
+   
   }
 
   dataPokemon = async () => {
@@ -29,7 +31,6 @@ export default class PokemonDetail extends Component {
     const flavor_text_entries = dataSpecies.flavor_text_entries;
     const find = flavor_text_entries.map((e, index) => (e.language.name === 'en' && index % 2 === 1 && index < 8 ? e.flavor_text : false))
     const textDescriptions = find.filter((e) => (e !== false))
-
     const hab = setInfo(dataSpecies,'grassland',['habitat','name'])
     const spr = setInfo(data.sprites,data.sprites.front_default,['versions','generation-v','black-white','animated','front_default'])
     this.setState({
@@ -42,11 +43,34 @@ export default class PokemonDetail extends Component {
       stats: data.stats,
       description: textDescriptions,
       habitat: hab,
+      api:data,
     }, () => {
       this.abilityDescription()
-
+      const favorites = JSON.parse(
+        localStorage.getItem('favorites'),
+      ) || [];
+      if(favorites.some((e)=>(e.name===data.name))){
+        const button = document.querySelector('#favoriteB')
+        button.classList.add('favoriteSelected')
+      }
     })
   }
+  favoritePokemon = ({target}) =>{
+    const{api,name} = this.state
+    const favorites = JSON.parse(
+      localStorage.getItem('favorites'),
+    ) || [];
+    let newFavorites = []
+    if(!favorites.some((e)=>(e.name===name))){
+      newFavorites = [...favorites,api]
+      target.classList.add('favoriteSelected')
+    }else{
+      newFavorites = favorites.filter((e)=>(e.name !== name))
+      target.classList.remove('favoriteSelected')
+    }
+    localStorage.setItem('favorites', JSON.stringify(newFavorites));
+  }
+
   abilityDescription = () => {
     const { abilities } = this.state;
     let newDescription = []
@@ -86,7 +110,6 @@ export default class PokemonDetail extends Component {
         descriptionAbilities: newDescription,
       })
     })
-
   }
   render() {
     const { name, sprite, descriptionAbilities, height, weight, types, stats, description, habitat } = this.state
@@ -110,9 +133,11 @@ export default class PokemonDetail extends Component {
           <div className='pokeBackground' style={{
             backgroundImage: `url(${process.env.PUBLIC_URL + `/habitats/${habitat}.png`})`
           }}>
+            <div>
+              <button className='favoriteButton' id='favoriteB' onClick={this.favoritePokemon}></button>
+            </div>
             <img src={sprite} alt={name} className='pokeImgInCard' ></img>
           </div>
-            
           <div className='pokeCardHeader textDescriptions'>
             <h3 className='pokeAttr'>height {height}m</h3>
             <h3 className='pokeAttr'>weight {weight}kg</h3>

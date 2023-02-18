@@ -10,13 +10,15 @@ export default class ListNamePokemons extends Component {
     min:0,
     limit:42,
     loading:false,
+    name:'',
   }
 
   componentDidMount(){
-    const { first,pokemons } = this.props.location.state.gen
+    const { first,pokemons,name } = this.props.location.state.gen
     this.setState({
       min:first,
       limit: pokemons,
+      name:name,
     },()=>{
       this.listing()
     })
@@ -33,13 +35,16 @@ export default class ListNamePokemons extends Component {
     })
   }
   render() {
-    const {listPokemons,loading} = this.state
+    const {listPokemons,loading,name} = this.state
     let load;
     if(loading){load = <Loading/>}
     return (
       <div>
         <Header/>
         <div className='allPokemons'>
+        <div className='headerText textDescriptions'>
+                <h1>{name.toLocaleUpperCase()}</h1>
+            </div>
         {load}
         {listPokemons.map((e,index)=>(
         <div key={index} ><Link className='links textDescriptions pokemonlist' to={`/pokemon/${e.pokedexNumber}`}>

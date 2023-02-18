@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import HomePage from './Components/HomePage';
 import ListNamePokemons from './Components/ListNamePokemons';
 import PokemonDetail from './Components/PokemonDetail';
+import Favoritespage from './Components/Favoritespage';
 
 class Routes extends Component {
   render() {
@@ -18,6 +19,7 @@ class Routes extends Component {
                 path="/generations/:first"
                 render={ (props) => <ListNamePokemons { ...props } /> }
               />
+               <Route  path="/favorites" component={ Favoritespage } />
               <Route exact path="/" component={ HomePage } />
           </Switch>
       </div>
