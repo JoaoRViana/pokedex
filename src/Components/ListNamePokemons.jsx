@@ -36,8 +36,7 @@ export default class ListNamePokemons extends Component {
   }
   render() {
     const {listPokemons,loading,name} = this.state
-    let load;
-    if(loading){load = <Loading/>}
+    if(loading){return <Loading/>}
     return (
       <div>
         <Header/>
@@ -45,7 +44,6 @@ export default class ListNamePokemons extends Component {
         <div className='headerText textDescriptions'>
                 <h1>{name.toLocaleUpperCase()}</h1>
             </div>
-        {load}
         {listPokemons.map((e,index)=>(
         <div key={index} ><Link className='links textDescriptions pokemonlist' to={`/pokemon/${e.pokedexNumber}`}>
           <div>

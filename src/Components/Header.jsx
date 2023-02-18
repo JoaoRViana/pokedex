@@ -18,7 +18,6 @@ export default class Header extends Component {
     if(clicked === ''){document.location.reload()}
     return (
       <div>
-        {/* <Loading /> */}
         <div className='header'>
             <Link to='/'>
                 <button className='textDescriptions headerButton'>Home</button>

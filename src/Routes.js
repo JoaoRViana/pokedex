@@ -4,6 +4,7 @@ import HomePage from './Components/HomePage';
 import ListNamePokemons from './Components/ListNamePokemons';
 import PokemonDetail from './Components/PokemonDetail';
 import Favoritespage from './Components/Favoritespage';
+import notFound from './Components/notFound';
 
 class Routes extends Component {
   render() {
@@ -20,6 +21,8 @@ class Routes extends Component {
                 render={ (props) => <ListNamePokemons { ...props } /> }
               />
                <Route  path="/favorites" component={ Favoritespage } />
+               <Route  path="/notfound" component={ notFound } />
+
               <Route exact path="/" component={ HomePage } />
           </Switch>
       </div>

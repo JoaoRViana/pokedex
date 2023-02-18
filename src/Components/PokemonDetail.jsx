@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
-import { getPokemon ,setInfo } from '../Services/getPokemons'
 import Header from './Header'
+import { getPokemon ,setInfo } from '../Services/getPokemons'
+import { Redirect } from 'react-router-dom'
+import Loading from './Loading'
 
 
 export default class PokemonDetail extends Component {
@@ -16,20 +18,27 @@ export default class PokemonDetail extends Component {
     imgType: '',
     description: [],
     habitat: '',
-    api:''
+    api:'',
+    notFound:false,
+    loading:true
   }
   componentDidMount() {
     this.dataPokemon()
-   
   }
 
   dataPokemon = async () => {
     const { id } = this.props.match.params
-    const data = await getPokemon(id);
+    let data;
+    try {
+      data = await getPokemon(id);
+
+    } catch (error) {
+      this.notFound();
+    }
     const api = await fetch(data.species.url)
     const dataSpecies = await api.json()
     const flavor_text_entries = dataSpecies.flavor_text_entries;
-    const find = flavor_text_entries.map((e, index) => (e.language.name === 'en' && index % 2 === 1 && index < 8 ? e.flavor_text : false))
+    const find = flavor_text_entries.map((e, index) => (e.language.name === 'en' && index % 3 === 1 && index < 10 ? e.flavor_text : false))
     const textDescriptions = find.filter((e) => (e !== false))
     const hab = setInfo(dataSpecies,'grassland',['habitat','name'])
     const spr = setInfo(data.sprites,data.sprites.front_default,['versions','generation-v','black-white','animated','front_default'])
@@ -43,26 +52,28 @@ export default class PokemonDetail extends Component {
       stats: data.stats,
       description: textDescriptions,
       habitat: hab,
-      api:data,
+      pokemonInfos:data,
     }, () => {
       this.abilityDescription()
-      const favorites = JSON.parse(
-        localStorage.getItem('favorites'),
-      ) || [];
-      if(favorites.some((e)=>(e.name===data.name))){
-        const button = document.querySelector('#favoriteB')
-        button.classList.add('favoriteSelected')
-      }
     })
   }
+  favoriteInLocalStorage = (data)=>{
+    const favorites = JSON.parse(
+      localStorage.getItem('favorites'),
+    ) || [];
+    if(favorites.some((e)=>(e.name===data.name))){
+      const button = document.querySelector('#favoriteB')
+      button.classList.add('favoriteSelected')
+    }
+  }
   favoritePokemon = ({target}) =>{
-    const{api,name} = this.state
+    const{pokemonInfos,name} = this.state
     const favorites = JSON.parse(
       localStorage.getItem('favorites'),
     ) || [];
     let newFavorites = []
     if(!favorites.some((e)=>(e.name===name))){
-      newFavorites = [...favorites,api]
+      newFavorites = [...favorites,pokemonInfos]
       target.classList.add('favoriteSelected')
     }else{
       newFavorites = favorites.filter((e)=>(e.name !== name))
@@ -70,9 +81,14 @@ export default class PokemonDetail extends Component {
     }
     localStorage.setItem('favorites', JSON.stringify(newFavorites));
   }
-
+  notFound = () =>{
+    this.setState({
+      loading:false,
+      notFound:true,
+    })
+  }
   abilityDescription = () => {
-    const { abilities } = this.state;
+    const { abilities,pokemonInfos } = this.state;
     let newDescription = []
     abilities.map(async (e) => {
       const name = e.ability.name;
@@ -108,11 +124,18 @@ export default class PokemonDetail extends Component {
       newDescription.push(obj);
       this.setState({
         descriptionAbilities: newDescription,
+        loading:false
+      },()=>{
+        this.favoriteInLocalStorage(pokemonInfos);
       })
     })
   }
   render() {
-    const { name, sprite, descriptionAbilities, height, weight, types, stats, description, habitat } = this.state
+    const { name, sprite, descriptionAbilities, height, weight, types, stats, description, habitat,notFound,loading } = this.state
+    if(loading){return(
+      <Loading />
+    )}
+    if(notFound){return <Redirect to='/notfound'/>}
     return (
       <div>
         <Header />
