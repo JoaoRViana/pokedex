@@ -89,6 +89,12 @@ export default class PokemonDetail extends Component {
       notFound:true,
     })
   }
+  anotherPokemon = ({target}) =>{
+    const {id} = this.state;
+    const {history} = this.props
+    history.push(`/pokemon/${(id)+(+(target.value))}`)
+    document.location.reload()
+  }
   abilityDescription = () => {
     const { abilities,pokemonInfos } = this.state;
     let newDescription = []
@@ -144,7 +150,11 @@ export default class PokemonDetail extends Component {
         <div className='pokeCard'>
           <div className='pokeCardHeader textStyled'>
             <div className='pokeName'>
-              <h3>Nº{id}</h3>
+              <div className='pokeNumber'>
+                <button className='arrows textStyled' value={-1} onClick={this.anotherPokemon}> {'<--'} </button>
+                <h3>Nº{id}</h3>
+                <button className='arrows textStyled' value={+1} onClick={this.anotherPokemon}>{'-->'}</button>
+              </div>
               <h1 >{name.toLocaleUpperCase()}</h1>
             </div>
             <div className='pokeCardHeader'>
