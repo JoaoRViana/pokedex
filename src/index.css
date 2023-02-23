@@ -32,14 +32,12 @@
 }
 
 .pokeCard {
-  display: inline;
   width: 20vw;
   margin: 30px;
   margin-top: 90px;
   background-color: rgb(250, 250, 250,0.8);
   border: rgb(148, 36, 36) 2px solid;
   border-radius: 1.75em;
-  float: right;
   animation: rotateCard 2s;
   animation-fill-mode: forwards;
 
@@ -193,7 +191,6 @@ body{
   background-image: url('../public/menu/forest.gif');
   background-repeat: no-repeat;
   background-size: cover;
-  
 }
 
 .region:hover,.pokemonlist:hover{
