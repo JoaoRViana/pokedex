@@ -42,7 +42,7 @@ export default class ListNamePokemons extends Component {
         <Header/>
         <div className='allPokemons'>
         <div className='headerText textDescriptions'>
-                <h1>{name.toLocaleUpperCase()}</h1>
+                <h1 className='titleWhite'>{name.toLocaleUpperCase()}</h1>
             </div>
         {listPokemons.map((e,index)=>(
         <div key={index} ><Link className='links textDescriptions pokemonlist' to={`/pokemon/${e.pokedexNumber}`}>

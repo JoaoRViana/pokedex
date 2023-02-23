@@ -41,7 +41,7 @@ export default class ListGenerations extends Component {
                     pathname: `/generations/${index+1}`,
                     state: { gen: generations[index] } } }
                     ><div>
-                        <h1>{e.name.toLocaleUpperCase()}</h1>
+                        <h1 className='titleGray'>{e.name.toLocaleUpperCase()}</h1>
                         <h3>{e.pokemons} Pokemons</h3>
                     </div>
                     </Link>

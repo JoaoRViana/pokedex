@@ -22,6 +22,8 @@ export default class PokemonDetail extends Component {
     notFound:false,
     loading:true,
     id:'',
+    divIndex:0,
+    div:'',
   }
   componentDidMount() {
     this.dataPokemon()
@@ -57,6 +59,9 @@ export default class PokemonDetail extends Component {
       id:data.id,
     }, () => {
       this.abilityDescription()
+      this.setState({
+        div:this.divPokemonDescription(),
+      })
     })
   }
   favoriteInLocalStorage = (data)=>{
@@ -138,8 +143,65 @@ export default class PokemonDetail extends Component {
       })
     })
   }
+  divPokemonDescription =()=>{
+    const {name,types,description} = this.state;
+    return (<div className='pokeDescriptions textDescriptions containerDescriptions'>
+    <h1 className='titleGray'>{name.toLocaleUpperCase()}</h1>
+    <h2 >Type :{types.map((e)=>(` ${e.type.name}`))}</h2>
+    {description.map((e, index) => (
+      <div key={index}>
+        <h4>{e}</h4>
+      </div>
+    ))}
+  </div>)
+  }
+  divPokemonAbillities = () =>{
+    const {descriptionAbilities} = this.state;
+    console.log(descriptionAbilities)
+    return (<div className='pokeAbilities textDescriptions containerDescriptions'>
+      <h1 className='titleGray'>Abillities</h1>
+    {descriptionAbilities.map((e,index) => (
+      <div key={`${e.name}${index}`}>
+        <div>{e.hide?<h2 className='hideAbility'>{e.name} Hide Ability</h2>:<h2>{e.name}</h2>}</div>
+        <h3>{e.description}</h3>
+      </div>
+    ))}
+    </div>)
+  }
+  divPokemonStats = () =>{
+    const { stats} = this.state;
+    return (
+      <div className='pokeStats textDescriptions containerDescriptions'>
+        <h1 className='titleGray'>Stats</h1>
+      {stats.map((e) => (
+        <div key={e.stat.name}>
+          <h3>{e.stat.name.toLocaleUpperCase()} : {e.base_stat}</h3>
+        </div>
+      ))}
+      </div>
+    )
+  }
+  nextDivText=({target})=>{
+    const { divIndex} = this.state;
+    let next = +(divIndex) + (+(target.value))
+    next = next>2?next=0:next;
+    next = next<0?next=2:next;
+    this.setState({
+      divIndex:next,
+    })
+    if(next===2){
+      next = this.divPokemonStats();
+    }else if(next=== 1){
+      next = this.divPokemonAbillities();
+    }else{
+      next = this.divPokemonDescription();
+    }
+    this.setState({
+      div:next,
+    })
+  }
   render() {
-    const { name, sprite, descriptionAbilities, height, weight, types, stats, description, habitat,notFound,loading,id } = this.state
+    const { name, sprite, height, weight, types, habitat,notFound,loading,id ,div } = this.state
     if(loading){return(
       <Loading />
     )}
@@ -147,15 +209,27 @@ export default class PokemonDetail extends Component {
     return (
       <div>
         <Header />
-        <div className='pokeCard'>
+        <div className='pokeDetailsPage'>
+          <div className='pokeContainerText '>
+            <div>
+            <button className=' textStyled highSize arrows' value={-1} onClick={this.nextDivText}> {'<'} </button>
+            </div>
+            <div>
+              {div}
+            </div>
+            <div>
+              <button className='textStyled highSize arrows' value={+1} onClick={this.nextDivText}> {'>'} </button>
+            </div>
+          </div>
+          <div className='pokeCard'>
           <div className='pokeCardHeader textStyled'>
             <div className='pokeName'>
               <div className='pokeNumber'>
-                <button className='arrows textStyled' value={-1} onClick={this.anotherPokemon}> {'<--'} </button>
+                <button className='textStyled mediumSize arrows' value={-1} onClick={this.anotherPokemon}> {'<--'} </button>
                 <h3>Nº{id}</h3>
-                <button className='arrows textStyled' value={+1} onClick={this.anotherPokemon}>{'-->'}</button>
+                <button className='textStyled mediumSize arrows' value={+1} onClick={this.anotherPokemon}>{'-->'}</button>
               </div>
-              <h1 >{name.toLocaleUpperCase()}</h1>
+              <h2 >{name.toLocaleUpperCase()}</h2>
             </div>
             <div className='pokeCardHeader'>
               {types.map((e, index) => (
@@ -178,35 +252,12 @@ export default class PokemonDetail extends Component {
           </div>
           <div className='pokeCardHeader textDescriptions'>
             <div className='pokeAttrContainer'>
-              <h3 className='pokeAttr'>height {height}m</h3>
-              <h3 className='pokeAttr'>weight {weight}kg</h3>
+              <h3 className='pokeAttr'>height: {height}m</h3>
+              <h3 className='pokeAttr'>weight: {weight}kg</h3>
             </div>
           </div>
         </div>
-        <div className='pokeDescriptions textDescriptions containerDescriptions'>
-          <h1>{name.toLocaleUpperCase()}</h1>
-          <h2>Type {types.map((e)=>(` ${e.type.name}`))}</h2>
-          {description.map((e, index) => (
-            <div key={index}>
-              <h4>{e}</h4>
-            </div>
-          ))}
-        </div>
-        <div className='pokeAbilities textDescriptions'>
-        {descriptionAbilities.map((e) => (
-          <div key={e.name}>
-            <h1>{e.name} {e.hide ? ' hide ability' : ''}</h1>
-            <h2>{e.description}</h2>
           </div>
-        ))}
-        </div>
-        <div className='pokeStats textDescriptions'>
-        {stats.map((e) => (
-          <div key={e.stat.name} className='borderBlack'>
-            <h3>{e.stat.name} {e.base_stat}</h3>
-          </div>
-        ))}
-        </div>
       </div>
     )
   }

@@ -33,7 +33,7 @@
 
 .pokeCard {
   display: inline;
-  width: 400px;
+  width: 20vw;
   margin: 30px;
   margin-top: 90px;
   background-color: rgba(233, 248, 233, 0.2);
@@ -95,11 +95,12 @@
   cursor: pointer;
 }
 .favoriteSelected{
-  background-image: url('../public/menu/Full_Star_Yellow.png');
+  background-image: url('../public/menu/fullStar.png');
 }
 .pokeType, .favoriteButton{
   width: 60px;
   height: 60px;
+  margin: 5px;
   background-size: contain;
   background-repeat: no-repeat;
 }
@@ -133,7 +134,7 @@
 }
 .inputButton{
   margin: 10px;
-  background-image: url('../public/menu/download2\ \(1\).png');
+  background-image: url('../public/menu/pokeball.png');
   background-size: contain;
   background-repeat: no-repeat;
   width: 25px;
@@ -205,10 +206,6 @@ body{
   cursor: pointer;
 }
 
-.pokeDescriptions{
-  width: 700px;
-  border: #c77a2e solid 2px;
-}
 .headerText{
   width: 100%;
   display: flex;
@@ -282,15 +279,64 @@ body::-webkit-scrollbar{
   display: flex;
   flex-wrap: wrap;
   height: 40px;
-  align-items: center;
-  justify-content: center;
 }
+.pokeName{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+}
+.hideAbility{
+  font-style: italic;
+  text-shadow: 0 -1px 4px #2de21c, 0 -2px 10px rgb(12, 62, 226);
 
+}
+@font-palette-values --Mint {
+  font-family: Rocher;
+  base-palette: 6;
+}
 .arrows{
   background: none;
   border: none;
   margin: 0px 3px;
+  font-palette: --Mint;
+  text-shadow: 0 -1px 4px #140b0b, 0 -2px 10px rgb(36, 25, 25);
 }
 .arrows:hover{
   filter: contrast(1.75);
+}
+
+.pokeContainerText{
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  align-items: center;
+  margin: 30px;
+  align-self: center;
+  justify-self: center;
+  /*background-color: rgba(233, 248, 233, 0.2);*/
+  text-align: center;
+  border-radius: 0.75em;
+}
+
+.containerDescriptions  {
+  width: 40vw;
+  margin: 10px;
+  color: #000;
+}
+.highSize {
+  font-size: 40px;
+}
+.pokeDetailsPage{
+  display: flex;
+  justify-content: space-around;
+}
+.titleWhite{
+  color: #ecf3eb;
+  text-shadow: 0 -1px 4px #333633, 0 -2px 10px rgb(75, 79, 92);
+}
+.titleGray{
+  color: #797a79;
+  text-shadow: 0 -1px 4px #020000, 0 -2px 10px rgb(16, 34, 68);
 }

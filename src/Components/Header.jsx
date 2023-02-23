@@ -20,7 +20,7 @@ export default class Header extends Component {
       <div>
         <div className='header'>
             <Link to='/'>
-                <button className='textDescriptions headerButton'>Home</button>
+                <button className='textDescriptions headerButton titleWhite'>Home</button>
             </Link>
             <div className='inputDiv'>
                 <input placeholder='type name or number' className='inputUser' onChange={this.handleChange} value={inputValue} id='inputValue'></input>
@@ -29,7 +29,7 @@ export default class Header extends Component {
                 </Link>
             </div>
             <Link to='/favorites'>
-                <button className='textDescriptions headerButton'>Favorites</button>
+                <button className='textDescriptions headerButton titleWhite'>Favorites</button>
             </Link>
         </div>
         <div className='dropDown'>
