@@ -44,7 +44,7 @@ export default class PokemonDetail extends Component {
     const find = flavor_text_entries.map((e, index) => (e.language.name === 'en' && index % 3 === 1 && index < 10 ? e.flavor_text : false))
     const textDescriptions = find.filter((e) => (e !== false))
     const hab = setInfo(dataSpecies,'grassland',['habitat','name'])
-    const spr = setInfo(data.sprites,data.sprites.front_default,['versions','generation-v','black-white','animated','front_default'])
+    const spr = setInfo(data.sprites,data.sprites.other['official-artwork'].front_default,['versions','generation-v','black-white','animated','front_default'])
     this.setState({
       name: data.name,
       sprite: spr,
@@ -87,6 +87,21 @@ export default class PokemonDetail extends Component {
       target.classList.remove('favoriteSelected')
     }
     localStorage.setItem('favorites', JSON.stringify(newFavorites));
+  }
+  shinyPokemon = ({target})=>{
+    const{pokemonInfos} = this.state
+    let spr =''
+    if(target.classList.value.includes('shinySelected')){
+      target.classList.remove('shinySelected')
+      spr = setInfo(pokemonInfos.sprites,pokemonInfos.sprites.other['official-artwork'].front_default,['versions','generation-v','black-white','animated','front_default'])
+
+    }else{
+      target.classList.add('shinySelected')
+      spr = setInfo(pokemonInfos.sprites,pokemonInfos.sprites.other['official-artwork'].front_shiny,['versions','generation-v','black-white','animated','front_shiny'])
+    }
+    this.setState({
+      sprite: spr,
+    })
   }
   notFound = () =>{
     this.setState({
@@ -157,13 +172,12 @@ export default class PokemonDetail extends Component {
   }
   divPokemonAbillities = () =>{
     const {descriptionAbilities} = this.state;
-    console.log(descriptionAbilities)
     return (<div className='pokeAbilities textDescriptions containerDescriptions'>
       <h1 className='titleGray'>Abillities</h1>
     {descriptionAbilities.map((e,index) => (
       <div key={`${e.name}${index}`}>
-        <div>{e.hide?<h2 className='hideAbility'>{e.name} Hide Ability</h2>:<h2>{e.name}</h2>}</div>
-        <h3>{e.description}</h3>
+        <h2 className={e.hide?'hideAbility':''}>{e.name} {e.hide?'Hide Ability':''}</h2>
+        <h3 className={e.hide?'hideAbility':''}>{e.description}</h3>
       </div>
     ))}
     </div>)
@@ -183,6 +197,12 @@ export default class PokemonDetail extends Component {
   }
   nextDivText=({target})=>{
     const { divIndex} = this.state;
+    const con = document.querySelector('#container')
+    if(+target.value > 0){
+      con.classList.add('textEffectRight')
+    }else{
+      con.classList.add('textEffectLeft')
+    }
     let next = +(divIndex) + (+(target.value))
     next = next>2?next=0:next;
     next = next<0?next=2:next;
@@ -199,6 +219,13 @@ export default class PokemonDetail extends Component {
     this.setState({
       div:next,
     })
+    setTimeout(()=>{
+      if(+target.value > 0){
+        con.classList.remove('textEffectRight')
+      }else{
+        con.classList.remove('textEffectLeft')
+      }
+    },500)
   }
   render() {
     const { name, sprite, height, weight, types, habitat,notFound,loading,id ,div } = this.state
@@ -214,7 +241,7 @@ export default class PokemonDetail extends Component {
             <div>
             <button className=' textStyled highSize arrows' value={-1} onClick={this.nextDivText}> {'<'} </button>
             </div>
-            <div>
+            <div id='container'>
               {div}
             </div>
             <div>
@@ -247,6 +274,7 @@ export default class PokemonDetail extends Component {
           }}>
             <div>
               <button className='favoriteButton' id='favoriteB' onClick={this.favoritePokemon}></button>
+              <button className='shinyButton' id='shinyB' onClick={this.shinyPokemon}></button>
             </div>
             <img src={sprite} alt={name} className='pokeImgInCard' ></img>
           </div>
