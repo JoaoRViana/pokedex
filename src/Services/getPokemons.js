@@ -18,7 +18,6 @@ export const getSomePokemons = async(first,limit) =>{
   }
   return somePokemons
 }
-
 export const getPokemon = async(id)=>{
   const api = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`)
   const data = await api.json()

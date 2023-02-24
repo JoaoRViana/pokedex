@@ -115,6 +115,25 @@ export default class PokemonDetail extends Component {
     history.push(`/pokemon/${(id)+(+(target.value))}`)
     document.location.reload()
   }
+  abilityEffect = (data) =>{
+    let description = []
+    if(data['effect_entries'].length === 0){
+      description = data['flavor_text_entries'].map((e) => {
+          if(e.language.name === 'en'){
+            return e.flavor_text.replaceAll('\f',' ')
+          }return false
+        }
+      )
+    }else{
+      description = data['effect_entries'].map((e) => {
+          if(e.language.name === 'en'){
+            return e.effect.replaceAll('\f',' ')
+          }return false
+        }
+      )
+    }
+    return description
+  }
   abilityDescription = () => {
     const { abilities,pokemonInfos } = this.state;
     let newDescription = []
@@ -123,27 +142,7 @@ export default class PokemonDetail extends Component {
       const url = e.ability.url;
       const api = await fetch(url);
       const data = await api.json();
-      let description = []
-      let a = 0
-      if(data['effect_entries'].length === 0){
-        description = data['flavor_text_entries'].map((e) => {
-          if(a === 0){
-            if(e.language.name === 'en'){
-              a = 1
-              return e.flavor_text.replaceAll('\f',' ')
-            }
-          }return false
-        })
-      }else{
-        description = data['effect_entries'].map((e) => {
-          if(a ===0){
-            if(e.language.name === 'en'){
-              a = 1
-              return e.effect.replaceAll('\f',' ')
-            }
-          }return false
-        })
-      }
+      const description = this.abilityEffect(data)
       const obj = {
         name: name,
         description: description,
@@ -198,11 +197,7 @@ export default class PokemonDetail extends Component {
   nextDivText=({target})=>{
     const { divIndex} = this.state;
     const con = document.querySelector('#container')
-    if(+target.value > 0){
-      con.classList.add('textEffectRight')
-    }else{
-      con.classList.add('textEffectLeft')
-    }
+    target.value>0?con.classList.add('textEffectRight'):con.classList.add('textEffectLeft');
     let next = +(divIndex) + (+(target.value))
     next = next>2?next=0:next;
     next = next<0?next=2:next;
@@ -220,11 +215,7 @@ export default class PokemonDetail extends Component {
       div:next,
     })
     setTimeout(()=>{
-      if(+target.value > 0){
-        con.classList.remove('textEffectRight')
-      }else{
-        con.classList.remove('textEffectLeft')
-      }
+      target.value>0?con.classList.remove('textEffectRight'):con.classList.remove('textEffectLeft');
     },500)
   }
   render() {
