@@ -32,7 +32,7 @@
 }
 
 .pokeCard {
-  width: 20vw;
+  width: 400px;
   margin: 30px;
   margin-top: 90px;
   margin-bottom: 90px;
@@ -189,6 +189,7 @@
 }
 body{
   /*background-color: #4d4c3a;*/
+  
   background-image: url('../public/menu/forest.gif');
   background-repeat: no-repeat;
   background-size: cover;
@@ -380,6 +381,19 @@ body::-webkit-scrollbar{
 .pokeDetailsPage{
   display: flex;
   justify-content: space-around;
+  
+}
+@media screen and (max-width: 1000px) {
+	.pokeDetailsPage,.header {
+		flex-wrap: wrap;
+	}
+  .titleName{
+    font-size:x-large;
+  }
+  body{
+    background-color: #4d4c3a;
+    background-image: none;
+  }
 }
 .titleWhite{
   color: #ecf3eb;

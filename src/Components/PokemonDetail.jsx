@@ -160,7 +160,7 @@ export default class PokemonDetail extends Component {
   divPokemonDescription =()=>{
     const {name,types,description} = this.state;
     return (<div className='pokeDescriptions textDescriptions containerDescriptions'>
-    <h1 className='titleGray'>{name.toLocaleUpperCase()}</h1>
+    <h1 className='titleGray titleName'>{name.toLocaleUpperCase()}</h1>
     <h2 >Type :{types.map((e)=>(` ${e.type.name}`))}</h2>
     {description.map((e, index) => (
       <div key={index}>
@@ -188,7 +188,7 @@ export default class PokemonDetail extends Component {
         <h1 className='titleGray'>Stats</h1>
       {stats.map((e) => (
         <div key={e.stat.name}>
-          <h3>{e.stat.name.toLocaleUpperCase()} : {e.base_stat}</h3>
+          <h3 className='textStats'>{e.stat.name.toLocaleUpperCase()} : {e.base_stat}</h3>
         </div>
       ))}
       </div>
