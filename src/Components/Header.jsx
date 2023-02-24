@@ -10,7 +10,7 @@ export default class Header extends Component {
     handleChange = ({target}) =>{
         const value = target.type === 'checkbox' ? target.checked : target.value;
         this.setState({
-            [target.id]:value,
+            [target.id]:value.toLowerCase(),
         })
     }
   render() {

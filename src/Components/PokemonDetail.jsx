@@ -41,7 +41,7 @@ export default class PokemonDetail extends Component {
     const api = await fetch(data.species.url)
     const dataSpecies = await api.json()
     const flavor_text_entries = dataSpecies.flavor_text_entries;
-    const find = flavor_text_entries.map((e, index) => (e.language.name === 'en' && index % 3 === 1 && index < 10 ? e.flavor_text : false))
+    const find = flavor_text_entries.map((e, index) => (e.language.name === 'en' && index % 3 === 1 && index < 10 ? e.flavor_text.replaceAll('\f',' ') : false))
     const textDescriptions = find.filter((e) => (e !== false))
     const hab = setInfo(dataSpecies,'grassland',['habitat','name'])
     const spr = setInfo(data.sprites,data.sprites.other['official-artwork'].front_default,['versions','generation-v','black-white','animated','front_default'])
@@ -130,18 +130,18 @@ export default class PokemonDetail extends Component {
           if(a === 0){
             if(e.language.name === 'en'){
               a = 1
-              return e.flavor_text
+              return e.flavor_text.replaceAll('\f',' ')
             }
-          }
+          }return false
         })
       }else{
         description = data['effect_entries'].map((e) => {
           if(a ===0){
             if(e.language.name === 'en'){
               a = 1
-              return e.effect
+              return e.effect.replaceAll('\f',' ')
             }
-          }
+          }return false
         })
       }
       const obj = {
@@ -267,7 +267,6 @@ export default class PokemonDetail extends Component {
                 </div>
               ))}
             </div>
-
           </div>
           <div className='pokeBackground' style={{
             backgroundImage: `url(${process.env.PUBLIC_URL + `/habitats/${habitat}.png`})`

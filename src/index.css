@@ -40,7 +40,7 @@
   border-radius: 1.75em;
   animation: rotateCard 2s;
   animation-fill-mode: forwards;
-
+  height: 700px;
 }
 @keyframes rotateCard{
   to{
