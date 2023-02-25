@@ -188,11 +188,7 @@
   width: 300px;
 }
 body{
-  /*background-color: #4d4c3a;*/
-  
-  background-image: url('../public/menu/forest.gif');
-  background-repeat: no-repeat;
-  background-size: cover;
+  background-color: #3d4746;
 }
 
 .region:hover,.pokemonlist:hover{
@@ -388,11 +384,10 @@ body::-webkit-scrollbar{
 		flex-wrap: wrap;
 	}
   .titleName{
-    font-size:x-large;
+    font-size:large;
   }
-  body{
-    background-color: #4d4c3a;
-    background-image: none;
+  .textName{
+    font-size: medium;
   }
 }
 .titleWhite{

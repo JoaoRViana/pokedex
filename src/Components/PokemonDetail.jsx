@@ -244,10 +244,10 @@ export default class PokemonDetail extends Component {
             <div className='pokeName'>
               <div className='pokeNumber'>
                 <button className='textStyled mediumSize arrows' value={-1} onClick={this.anotherPokemon}> {'<--'} </button>
-                <h3>Nº{id}</h3>
+                <h3 >Nº{id}</h3>
                 <button className='textStyled mediumSize arrows' value={+1} onClick={this.anotherPokemon}>{'-->'}</button>
               </div>
-              <h2 >{name.toLocaleUpperCase()}</h2>
+              <h2 className='textName'>{name.toLocaleUpperCase()}</h2>
             </div>
             <div className='pokeCardHeader'>
               {types.map((e, index) => (
