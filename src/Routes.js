@@ -22,8 +22,8 @@ class Routes extends Component {
               />
                <Route  path="/favorites" component={ Favoritespage } />
                <Route  path="/notfound" component={ notFound } />
-
               <Route exact path="/" component={ HomePage } />
+              <Route path="*" component = {notFound} />
           </Switch>
       </div>
     );
