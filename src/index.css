@@ -70,7 +70,6 @@
   font-family: "Audiowide", cursive;
   color: #333;
   text-shadow: -0.01em -0.01em 0.01em #000;
-
 }
 .pokeBackground {
   display: flex;
@@ -568,7 +567,8 @@ body::-webkit-scrollbar{
   border-top-color: #A8A878;
   border-bottom-color: #484038;
   border-radius: 5px;
-  padding: 0.15em;}
+  padding: 0.15em;
+}
 .textsteel{
     background: #B8B8D0;
     border-style: solid none;
@@ -577,4 +577,22 @@ body::-webkit-scrollbar{
     border-bottom-color: #807870;
     border-radius: 5px;
     padding: 0.15em;
+}
+
+.selectFilterContainer{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.selectFilterContainer select{
+  font-family: "Audiowide", cursive;
+  color: #333;
+  text-shadow: -0.01em -0.01em 0.01em #000;
+  background-color:#D8D8D0;
+  border-radius: 1.75em;
+  font-weight: 800;
+}
+.selectFilterContainer select option{
+  font-weight: 800;
 }

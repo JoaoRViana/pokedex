@@ -4,6 +4,8 @@ import { getSomePokemons } from '../Services/getPokemons'
 import Header from './Header'
 import Loading from './Loading'
 
+const pokeTypes = ['All','grass','fire','water','normal','electric','bug','dragon','flying','ghost','fairy','rock','ground','poison','fighting','ice','steel','psychic','dark']
+
 export default class ListNamePokemons extends Component {
   state = {
     listPokemons:[],
@@ -11,6 +13,8 @@ export default class ListNamePokemons extends Component {
     limit:42,
     loading:false,
     name:'',
+    listPokemonFiltred:[],
+    selectFilter:'All',
   }
 
   componentDidMount(){
@@ -31,11 +35,34 @@ export default class ListNamePokemons extends Component {
     const pokemons = await getSomePokemons(min,limit)
     this.setState({
       listPokemons:pokemons,
+      listPokemonFiltred:pokemons,
       loading:false,
     })
   }
+
+  handleChange=({target})=>{
+    this.setState({
+      selectFilter:target.value,
+    },()=>{
+      const {selectFilter,listPokemons}= this.state;
+      console.log(listPokemons)
+      if(selectFilter !=='All'){
+        const filtred = listPokemons.filter((e)=>(e.types.includes(selectFilter)))
+        this.setState({
+          listPokemonFiltred:filtred,
+        })
+      }else{
+        this.setState({
+          listPokemonFiltred:listPokemons,
+        })
+      }
+
+      
+    })
+  }
+
   render() {
-    const {listPokemons,loading,name} = this.state
+    const {listPokemonFiltred,loading,name} = this.state
     if(loading){return <Loading/>}
     return (
       <div>
@@ -44,7 +71,10 @@ export default class ListNamePokemons extends Component {
         <div className='headerText textDescriptions'>
                 <h1 className='titleWhite'>{name.toLocaleUpperCase()}</h1>
             </div>
-        {listPokemons.map((e,index)=>(
+            <div className='selectFilterContainer'>
+              <select onChange={this.handleChange}>{pokeTypes.map((e)=>(<option value={e} className={`text${e}`}>{e}</option>))}</select>
+          </div>
+        {listPokemonFiltred.map((e,index)=>(
         <div key={index} ><Link className='links textDescriptions pokemonlist' to={`/pokemon/${e.pokedexNumber}`}>
           <div>
             <h4 className='pokemonlistText'>{e.pokedexNumber}.{e.name}</h4>
