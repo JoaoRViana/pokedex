@@ -18,14 +18,20 @@ export default class ListNamePokemons extends Component {
   }
 
   componentDidMount(){
-    const { first,pokemons,name } = this.props.location.state.gen
-    this.setState({
-      min:first,
-      limit: pokemons,
-      name:name,
-    },()=>{
-      this.listing()
-    })
+    const{history}= this.props
+    try {
+      const { first,pokemons,name } = this.props.location.state.gen
+      this.setState({
+        min:first,
+        limit: pokemons,
+        name:name,
+      },()=>{
+        this.listing()
+      })
+    } catch (error) {
+      history.push('/')
+    }
+
   }
   listing = async () =>{
     const{min,limit} = this.state;
