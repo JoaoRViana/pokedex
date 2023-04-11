@@ -7,10 +7,8 @@ export default class notFound extends Component {
       <div>
         <Header />
         <div className='allPokemons'>
-            <div className='textDescriptions'>
-                <h1>Missing Nº</h1>
+                <h1 className='headerText textDescriptions titleWhite'>Missing Nº</h1>
                 <div className='notFound'>
-                </div>
             </div>
         </div>
       </div>
