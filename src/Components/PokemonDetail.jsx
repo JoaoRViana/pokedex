@@ -252,7 +252,7 @@ export default class PokemonDetail extends Component {
             <div className='pokeCardHeader'>
               {types.map((e, index) => (
                 <div key={index}>
-                  <div className='pokeType background' style={{
+                  <div className='pokeType' style={{
                     backgroundImage: `url(${process.env.PUBLIC_URL + `/types/${e.type.name}.png`})`
                   }}></div>
                 </div>

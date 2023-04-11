@@ -48,6 +48,9 @@ export default class ListNamePokemons extends Component {
         <div key={index} ><Link className='links textDescriptions pokemonlist' to={`/pokemon/${e.pokedexNumber}`}>
           <div>
             <h4 className='pokemonlistText'>{e.pokedexNumber}.{e.name}</h4>
+            <div className='pokemonlistText'>
+            {e.types.map((f)=>(<h4 className={`text${f} pokemonlistText` }>{f}</h4>))}
+            </div>
             <img src={e.sprite} alt={e.name} className='pokeImgHome'/>
           </div>
         </Link>
