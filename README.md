@@ -8,7 +8,7 @@ Para instalar o aplicativo, siga estas etapas:
 
 ### Clone o repositório em sua máquina local usando o seguinte comando:
 
-- https://github.com/JoaoRViana/pokedex.git
+- git clone https://github.com/JoaoRViana/pokedex.git
 
 ### Acesse a pasta do projeto e instale as dependências do projeto com o seguinte comando:
 - cd pokedex
