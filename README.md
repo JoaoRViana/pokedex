@@ -32,7 +32,7 @@ O usuário irá ver todos os pokémons da região escolhida.
 
 ## Busca por nome ou número
 
-O usuário pode buscar um Pokémon pelo nome ou número da Pokédex digitando na barra de busca na barra de navegação.
+O usuário pode buscar um Pokémon pelo nome ou número da Pokédex digitando na barra de busca.
 
 ## Filtrar por tipagem
 
