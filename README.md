@@ -1,70 +1,61 @@
-# Getting Started with Create React App
+# Pokedex App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Este é um aplicativo Pokedex criado em React que permite ao usuário visualizar informações detalhadas sobre diferentes Pokémons. O usuário pode favoritar, ver a forma shiny, ver os pokemons da região específica, filtrar por tipagem, ver status, habilidades e uma breve descrição do Pokemon. Além disso, também é possível buscar Pokémons pelo nome ou número da Pokédex.
 
-## Available Scripts
+## Instalação
 
-In the project directory, you can run:
+Para instalar o aplicativo, siga estas etapas:
 
-### `npm start`
+### Clone o repositório em sua máquina local usando o seguinte comando:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- https://github.com/JoaoRViana/pokedex.git
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Acesse a pasta do projeto e instale as dependências do projeto com o seguinte comando:
+- cd pokedex
+- npm install
 
-### `npm test`
+### Inicie o aplicativo com o seguinte comando:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- npm start
 
-### `npm run build`
+O aplicativo estará disponível em http://localhost:3000.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# Funcionalidades
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Região
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+O usuário escolhe uma das regiões e será redirecionado para a listagem de pokémons da região escolhida.
 
-### `npm run eject`
+## Lista de Pokémons
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+O usuário irá ver todos os pokémons da região escolhida.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Busca por nome ou número
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+O usuário pode buscar um Pokémon pelo nome ou número da Pokédex digitando na barra de busca na barra de navegação.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Filtrar por tipagem
 
-## Learn More
+O usuário pode filtrar a lista de Pokémons por tipo.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Detalhes do Pokémon
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Ao clicar em um Pokémon na lista, o usuário será levado para uma página com detalhes do Pokémon, incluindo:
 
-### Code Splitting
+- Imagem do Pokémon
+- Nome e número da Pokédex
+- Descrição breve
+- Tipagem
+- Status (HP, Attack, Defense, Special Attack, Special Defense, Speed)
+- Habilidades
+- Forma shiny
+- Opção para favoritar o Pokémon.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Favoritos
 
-### Analyzing the Bundle Size
+O usuário pode marcar Pokémons como favoritos clicando no ícone de estrela na página de detalhes do Pokémon. Esses Pokémons favoritos podem ser acessados clicando no botão "Favorites" na barra de navegação.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
+## API utilizada
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Este aplicativo utiliza a API pública [PokéAPI](https://pokeapi.co) para obter informações sobre os Pokémons.
