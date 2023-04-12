@@ -592,6 +592,9 @@ body::-webkit-scrollbar{
   background-color:#D8D8D0;
   border-radius: 1.75em;
   font-weight: 800;
+  width: 120px;
+  text-align: center;
+  height: 30px;
 }
 .selectFilterContainer select option{
   font-weight: 800;

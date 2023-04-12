@@ -8,10 +8,18 @@ export default class Header extends Component {
     }
 
     handleChange = ({target}) =>{
+        console.log(this.props)
         const value = target.type === 'checkbox' ? target.checked : target.value;
         this.setState({
             [target.id]:value.toLowerCase(),
-        })
+        },()=>{
+            const{inputValue}=this.state
+            document.addEventListener('keypress',function(key){
+                if(key.which === 13){
+                    window.location.replace(`/pokemon/${inputValue}`)
+                }
+            })
+        })  
     }
   render() {
     const {inputValue,clicked} = this.state
