@@ -24,7 +24,7 @@ export default class Favoritespage extends Component {
         <Header/>
         <div className='allPokemons'>
             <div className='headerText textDescriptions'>
-                <h1>Favorites</h1>
+                <h1 className='titleWhite'>Favorites</h1>
             </div>
         {favorites.map((e,index)=>(
         <div key={index} ><Link className='links textDescriptions pokemonlist' to={`/pokemon/${e.id}`}>
