@@ -20,6 +20,7 @@ export default class ListNamePokemons extends Component {
     lastPage:2,
     quantityLastPage:20,
     allPokemons:[],
+    filterAvalaible:false,
   }
 
   componentDidMount(){
@@ -49,6 +50,7 @@ export default class ListNamePokemons extends Component {
     const all = await getSomePokemons(min,limit)
     this.setState({
       allPokemons:all,
+      filterAvalaible:true
     })
   }
   listing = async (first,maxForPage,actualPage = 1) =>{
@@ -101,7 +103,7 @@ export default class ListNamePokemons extends Component {
   }
 
   render() {
-    const {listPokemonFiltred,loading,name,actualPage ,lastPage ,selectFilter} = this.state
+    const {listPokemonFiltred,loading,name,actualPage ,lastPage ,selectFilter ,filterAvalaible} = this.state
     if(loading){return <Loading/>}
     return (
       <div>
@@ -110,9 +112,10 @@ export default class ListNamePokemons extends Component {
         <div className='headerText textDescriptions'>
                 <h1 className='titleWhite'>{name.toLocaleUpperCase()}</h1>
             </div>
-            <div className='selectFilterContainer'>
+            {filterAvalaible? <div className='selectFilterContainer'>
               <select onChange={this.handleChange}>{pokeTypes.map((e)=>(<option value={e} className={`text${e}`}>{e}</option>))}</select>
-          </div>
+          </div>:''}
+           
         {listPokemonFiltred.map((e,index)=>(
         <div key={index} ><Link className='links textDescriptions pokemonlist' to={`/pokemon/${e.pokedexNumber}`}>
           <div>
