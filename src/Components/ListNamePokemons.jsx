@@ -15,7 +15,7 @@ export default class ListNamePokemons extends Component {
     name:'',
     listPokemonFiltred:[],
     selectFilter:'All',
-    maxForPage:20,
+    maxForPage:13,
     actualPage:1,
     lastPage:2,
     quantityLastPage:20,
