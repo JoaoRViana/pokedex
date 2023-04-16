@@ -15,45 +15,78 @@ export default class ListNamePokemons extends Component {
     name:'',
     listPokemonFiltred:[],
     selectFilter:'All',
+    maxForPage:20,
+    actualPage:1,
+    lastPage:2,
+    quantityLastPage:20,
+    allPokemons:[],
   }
 
   componentDidMount(){
     const{history}= this.props
+    const{maxForPage} = this.state
     try {
       const { first,pokemons,name } = this.props.location.state.gen
+      const lastPage = Math.ceil(+pokemons/maxForPage)
+      const quantityLastPage = pokemons - (maxForPage*(lastPage - 1))
       this.setState({
         min:first,
         limit: pokemons,
         name:name,
+        lastPage,
+        quantityLastPage,
       },()=>{
-        this.listing()
+        const{min,maxForPage} = this.state
+        this.listing(min,maxForPage)
+        this.getAllPokemons();
       })
     } catch (error) {
       history.push('/')
     }
-
   }
-  listing = async () =>{
-    const{min,limit} = this.state;
+  getAllPokemons = async() =>{
+    const{min,limit} = this.state
+    const all = await getSomePokemons(min,limit)
+    this.setState({
+      allPokemons:all,
+    })
+  }
+  listing = async (first,maxForPage,actualPage = 1) =>{
     this.setState({
       loading:true,
+      actualPage,
+
+    },async()=>{
+      const pokemons = await getSomePokemons((first),maxForPage)
+      this.setState({
+        listPokemons:pokemons,
+        listPokemonFiltred:pokemons,
+        loading:false,
+      })
     })
-    const pokemons = await getSomePokemons(min,limit)
-    this.setState({
-      listPokemons:pokemons,
-      listPokemonFiltred:pokemons,
-      loading:false,
-    })
+  }
+
+  nextPage = ({target})=>{
+    const {lastPage,actualPage,quantityLastPage,maxForPage,min} = this.state;
+    const nextPage =(+actualPage) + (+target.value)
+    const first = min+((nextPage-1)*maxForPage);
+    if(nextPage <=0 || nextPage > lastPage){
+      return false;
+    }else if(nextPage === lastPage){
+      this.listing(first,quantityLastPage,nextPage)
+    }
+    else{
+      this.listing(first,maxForPage,nextPage)
+    }
   }
 
   handleChange=({target})=>{
     this.setState({
       selectFilter:target.value,
     },()=>{
-      const {selectFilter,listPokemons}= this.state;
-      console.log(listPokemons)
+      const {selectFilter,listPokemons ,allPokemons}= this.state;
       if(selectFilter !=='All'){
-        const filtred = listPokemons.filter((e)=>(e.types.includes(selectFilter)))
+        const filtred = allPokemons.filter((e)=>(e.types.includes(selectFilter)))
         this.setState({
           listPokemonFiltred:filtred,
         })
@@ -68,7 +101,7 @@ export default class ListNamePokemons extends Component {
   }
 
   render() {
-    const {listPokemonFiltred,loading,name} = this.state
+    const {listPokemonFiltred,loading,name,actualPage ,lastPage ,selectFilter} = this.state
     if(loading){return <Loading/>}
     return (
       <div>
@@ -92,6 +125,14 @@ export default class ListNamePokemons extends Component {
         </Link>
         </div>
       ))}
+      {selectFilter=== 'All'? <div className='listPokemonFooter textDescriptions'>
+      <h1 className='titleWhite' >{actualPage}/{lastPage}</h1>
+      <div>
+        {actualPage === 1? '':<button onClick={this.nextPage}value={-1} className='textStyled  arrows'>{'<-'}</button>}
+        {actualPage === lastPage?'':<button onClick={this.nextPage} value={+1} className='textStyled  arrows'>{'->'}</button>}
+      </div>
+      </div>:''}
+     
       </div>
       </div>
     )

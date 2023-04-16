@@ -25,7 +25,6 @@ export default class Header extends Component {
     const {inputValue,clicked} = this.state
     if(clicked === ''){document.location.reload()}
     return (
-      <div>
         <div className='header'>
             <Link to='/'>
                 <button className='textDescriptions headerButton titleWhite'>Home</button>
@@ -40,7 +39,6 @@ export default class Header extends Component {
                 <button className='textDescriptions headerButton titleWhite'>Favorites</button>
             </Link>
         </div>
-      </div>
     )
   }
 }
