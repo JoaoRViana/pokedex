@@ -17,16 +17,19 @@ export default class ListGenerations extends Component {
     }
     getGens = async() =>{
         let data = await getGenerations()
-        data= data.results;
+        data = data.results;
         let arr = []
         let first = 0
         data.map(async (e)=>{
             const api = await fetch(e.url)
             const data = await api.json()
+            const primeiro  = (data.pokemon_species[0].url).indexOf('pokemon-species')
+            const firstPokemon = ((data.pokemon_species[0].url).slice(primeiro)).replace('pokemon-species','').replaceAll('/','')
+
             const obj = {
                 name : data.main_region.name,
                 pokemons: data.pokemon_species.length,
-                first : first
+                first : (+firstPokemon-1)
             }
             first = data.pokemon_species.length + first
             arr.push(obj)
