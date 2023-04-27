@@ -7,7 +7,7 @@ export const getSomePokemons = async(first,limit) =>{
   for(let i = 0;i<limit;i++){
     const api = await fetch(arrPokemons[i].url)
     const data = await api.json()
-    const spr = setInfo(data.sprites,data.sprites.front_default,['versions','generation-vii','icons','front_default'])
+    const spr = setInfo(data.sprites,data.sprites.other['official-artwork'].front_default,['versions','generation-vii','icons','front_default'])
     const types = data.types.map((e)=>(e.type.name))
     const obj = {
       name:data.name,

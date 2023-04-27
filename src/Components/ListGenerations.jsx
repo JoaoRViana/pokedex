@@ -24,8 +24,9 @@ export default class ListGenerations extends Component {
             const api = await fetch(e.url)
             const data = await api.json()
             const primeiro  = (data.pokemon_species[0].url).indexOf('pokemon-species')
-            const firstPokemon = ((data.pokemon_species[0].url).slice(primeiro)).replace('pokemon-species','').replaceAll('/','')
-
+            let allPokemons = (data.pokemon_species.map((e)=>(+((e.url.slice(primeiro).replace('pokemon-species',''))).replaceAll('/',''))))
+            allPokemons = allPokemons.sort((a,b)=>(a-b))
+            const firstPokemon = allPokemons[0]
             const obj = {
                 name : data.main_region.name,
                 pokemons: data.pokemon_species.length,
@@ -36,13 +37,12 @@ export default class ListGenerations extends Component {
             this.setState({
                 generations:arr,
             })
-
         })
     }
 
     getRandomPokemon = async()=>{
-        const randomNumber =  Math.round((Math.random()*386))
-        const randomNumber2 =  Math.round((Math.random()*386))
+        const randomNumber =  Math.round((Math.random()*649))
+        const randomNumber2 =  Math.round((Math.random()*649))
         const pokemon = await getPokemon(randomNumber)
         const pokemon2 = await getPokemon(randomNumber2)
         this.setState({
