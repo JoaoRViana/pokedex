@@ -24,6 +24,7 @@
   background: rgba(169, 172, 169, 0.6);
   margin: 20px;
   border-radius: 3%;
+  min-height: 250px;
 }
 @font-palette-values --palleteArrowsFooter {
   font-family: Rocher;
@@ -232,7 +233,7 @@ body{
   background-image: url('../public/menu/forest.gif');
   background-size: cover;
   background-repeat: no-repeat;
-  min-height: 1000px;
+  min-height: 1500px;
 }
 .pokemonlistText {
   margin: 5px;
@@ -298,6 +299,7 @@ body::-webkit-scrollbar{
   position: absolute;
   width: 60px;
   height: 10px;
+  margin-left: -8px;
 }
 .arrowDropDown:hover .contact{
   display: block;

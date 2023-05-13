@@ -23,6 +23,7 @@ export default class ListGenerations extends Component {
         data.map(async (e)=>{
             const api = await fetch(e.url)
             const data = await api.json()
+            console.log(data)
             const primeiro  = (data.pokemon_species[0].url).indexOf('pokemon-species')
             let allPokemons = (data.pokemon_species.map((e)=>(+((e.url.slice(primeiro).replace('pokemon-species',''))).replaceAll('/',''))))
             allPokemons = allPokemons.sort((a,b)=>(a-b))
@@ -34,6 +35,7 @@ export default class ListGenerations extends Component {
             }
             first = data.pokemon_species.length + first
             arr.push(obj)
+            arr = arr.sort((a,b)=>a.first-b.first)
             this.setState({
                 generations:arr,
             })
@@ -60,7 +62,7 @@ export default class ListGenerations extends Component {
             {generations.map((e,index)=>(
                 <div key={e.name} className=''>
                     <Link className='links region textDescriptions' to={ {
-                    pathname: `/generations/${index+1}`,
+                    pathname: `/generations/${generations[index].name}`,
                     state: { gen: generations[index] } } }
                     ><div>
                         <h1 className='titleGray'>{e.name.toLocaleUpperCase()}</h1>
