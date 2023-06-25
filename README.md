@@ -2,6 +2,8 @@
 
 Este é um aplicativo Pokedex criado em React que permite ao usuário visualizar informações detalhadas sobre diferentes Pokémons. O usuário pode favoritar, ver a forma shiny, ver os pokemons da região específica, filtrar por tipagem, ver status, habilidades e uma breve descrição do Pokemon. Além disso, também é possível buscar Pokémons pelo nome ou número da Pokédex.
 
+<img src='./public/app.gif'>
+
 ## Instalação
 
 Para instalar o aplicativo, siga estas etapas:
