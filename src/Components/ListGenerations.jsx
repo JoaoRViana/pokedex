@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom'
 export default class ListGenerations extends Component {
     state = {
         generations : [],
-        randomPokemon:'',
-        randomPokemon2:'',
+        randomPokemon:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/back/132.gif",
+        randomPokemon2:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/back/132.gif",
     }
     componentDidMount(){
         this.getGens()
@@ -31,7 +31,7 @@ export default class ListGenerations extends Component {
             const obj = {
                 name : data.main_region.name,
                 pokemons: data.pokemon_species.length,
-                first : (+firstPokemon-1)
+                first : (+firstPokemon)
             }
             first = data.pokemon_species.length + first
             arr.push(obj)
