@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { getSomePokemons } from '../Services/getPokemons'
+import { getSomePokemons,setInfo } from '../Services/getPokemons'
 import Header from './Header'
 import Loading from './Loading'
 
@@ -48,8 +48,11 @@ export default class ListNamePokemons extends Component {
   getAllPokemons = async() =>{
     const{min,limit} = this.state
     const all = await getSomePokemons(min,limit)
+    const allPokemons = all.map((e)=>{
+      return this.setInfoPokemon(e)
+    })
     this.setState({
-      allPokemons:all,
+      allPokemons:allPokemons,
       filterAvalaible:true
     })
   }
@@ -60,14 +63,27 @@ export default class ListNamePokemons extends Component {
 
     },async()=>{
       const pokemons = await getSomePokemons((first),maxForPage)
+      const listingPokemons = pokemons.map((e)=>{
+        return this.setInfoPokemon(e)
+      })
       this.setState({
-        listPokemons:pokemons,
-        listPokemonFiltred:pokemons,
+        listPokemons:listingPokemons,
+        listPokemonFiltred:listingPokemons,
         loading:false,
       })
     })
   }
-
+  setInfoPokemon = (pokemon)=>{
+    const spr = setInfo(pokemon.sprites,pokemon.sprites.other['official-artwork'].front_default,['versions','generation-vii','icons','front_default'])
+    const types = pokemon.types.map((e)=>(e.type.name))
+    const obj = {
+      name:pokemon.name,
+      sprite:spr,
+      types,
+      pokedexNumber:pokemon.id,
+    }
+    return obj
+  }
   nextPage = ({target})=>{
     const {lastPage,actualPage,quantityLastPage,maxForPage,min} = this.state;
     const nextPage =(+actualPage) + (+target.value)
