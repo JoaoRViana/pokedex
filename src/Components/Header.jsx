@@ -8,7 +8,6 @@ export default class Header extends Component {
     }
 
     handleChange = ({target}) =>{
-        console.log(this.props)
         const value = target.type === 'checkbox' ? target.checked : target.value;
         this.setState({
             [target.id]:value.toLowerCase(),
