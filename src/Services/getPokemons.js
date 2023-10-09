@@ -1,20 +1,10 @@
 
 export const getSomePokemons = async(first,limit) =>{
-
   const somePokemons = []
   for(let i = 0;i<limit;i++){
-    const data = await getPokemon(first+i)
-    const spr = setInfo(data.sprites,data.sprites.other['official-artwork'].front_default,['versions','generation-vii','icons','front_default'])
-    const types = data.types.map((e)=>(e.type.name))
-    const obj = {
-      name:data.name,
-      sprite:spr,
-      types,
-      pokedexNumber:data.id,
-    }
-    somePokemons.push(obj)
+    somePokemons.push(getPokemon(first+i))
   }
-  return somePokemons
+  return await Promise.all(somePokemons);
 }
 export const getPokemon = async(id)=>{
   const api = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`)
