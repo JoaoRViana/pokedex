@@ -16,7 +16,6 @@ export default class ListNamePokemons extends Component {
     maxForPage:40,
     actualPage:1,
     lastPage:2,
-    first:0,
     quantityLastPage:20,
     allPokemons:[],
     filterAvalaible:true,
@@ -24,7 +23,6 @@ export default class ListNamePokemons extends Component {
 
   componentDidMount(){
     const{history}= this.props
-    const{maxForPage} = this.state
     try {
       this.setState({
         loading:true,
@@ -48,8 +46,7 @@ export default class ListNamePokemons extends Component {
         return null;
       }
     }));
-    allPokemons = allPokemons.filter((e)=>e!==null)
-    allPokemons = allPokemons.sort((a,b)=>a.pokedexNumber-b.pokedexNumber)
+    allPokemons =( allPokemons.filter((e)=>e!==null)).sort((a,b)=>a.pokedexNumber-b.pokedexNumber)
     this.setState({
       allPokemons,
       name:gen.main_region.name,
@@ -81,14 +78,14 @@ export default class ListNamePokemons extends Component {
         listPokemons:listingPokemons,
         listPokemonFiltred:listingPokemons,
         loading:false,
-        first:quantity*actualPage
       })
     })
   }
 
   nextPage = ({target})=>{
-    const {lastPage,actualPage,quantityLastPage,maxForPage,first} = this.state;
+    const {lastPage,actualPage,quantityLastPage,maxForPage} = this.state;
     const nextPage =(+actualPage) + (+target.value)
+    const first = (nextPage-1)*maxForPage
     if(nextPage <=0 || nextPage > lastPage){
       return false;
     }else if(nextPage === lastPage) {
@@ -97,7 +94,6 @@ export default class ListNamePokemons extends Component {
     else{
       this.listing(first,maxForPage,nextPage)
     }
- 
   }
   setInfoPokemon = (pokemon)=>{
     const spr = setInfo(pokemon.sprites,pokemon.sprites.other['official-artwork'].front_default,['versions','generation-vii','icons','front_default'])
