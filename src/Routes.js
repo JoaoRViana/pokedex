@@ -17,7 +17,7 @@ class Routes extends Component {
                 render={ (props) => <PokemonDetail { ...props } /> }
               />
                <Route
-                path="/generations/:name"
+                path="/generations/:id"
                 render={ (props) => <ListNamePokemons { ...props } /> }
               />
                <Route  path="/favorites" component={ Favoritespage } />

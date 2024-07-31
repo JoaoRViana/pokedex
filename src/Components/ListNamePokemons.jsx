@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { getSomePokemons,setInfo } from '../Services/getPokemons'
+import { setInfo,getPokemonsGen,getPokemon } from '../Services/getPokemons'
 import Header from './Header'
 import Loading from './Loading'
 
@@ -9,8 +9,6 @@ const pokeTypes = ['All','grass','fire','water','normal','electric','bug','drago
 export default class ListNamePokemons extends Component {
   state = {
     listPokemons:[],
-    min:0,
-    limit:42,
     loading:false,
     name:'',
     listPokemonFiltred:[],
@@ -18,27 +16,19 @@ export default class ListNamePokemons extends Component {
     maxForPage:40,
     actualPage:1,
     lastPage:2,
+    first:0,
     quantityLastPage:20,
     allPokemons:[],
-    filterAvalaible:false,
+    filterAvalaible:true,
   }
 
   componentDidMount(){
     const{history}= this.props
     const{maxForPage} = this.state
     try {
-      const { first,pokemons,name } = this.props.location.state.gen
-      const lastPage = Math.ceil(+pokemons/maxForPage)
-      const quantityLastPage = pokemons - (maxForPage*(lastPage - 1))
       this.setState({
-        min:first,
-        limit: pokemons,
-        name:name,
-        lastPage,
-        quantityLastPage,
+        loading:true,
       },()=>{
-        const{min,maxForPage} = this.state
-        this.listing(min,maxForPage)
         this.getAllPokemons();
       })
     } catch (error) {
@@ -46,32 +36,68 @@ export default class ListNamePokemons extends Component {
     }
   }
   getAllPokemons = async() =>{
-    const{min,limit} = this.state
-    const all = await getSomePokemons(min,limit)
-    const allPokemons = all.map((e)=>{
-      return this.setInfoPokemon(e)
-    })
+    const genId = (window.location.href)[window.location.href.length-1];
+    let gen = await getPokemonsGen(genId)
+    let pokemons = gen.pokemon_species;
+    let allPokemons = await Promise.all(pokemons.map(async (e) => {
+      try {
+        let pokemon  = await getPokemon(e.name)
+        return this.setInfoPokemon(pokemon)
+      } catch (error) {
+        console.error(`Error fetching pokemon ${e.name}:`, error);
+        return null;
+      }
+    }));
+    allPokemons = allPokemons.filter((e)=>e!==null)
+    allPokemons = allPokemons.sort((a,b)=>a.pokedexNumber-b.pokedexNumber)
     this.setState({
-      allPokemons:allPokemons,
-      filterAvalaible:true
+      allPokemons,
+      name:gen.main_region.name,
+    },async ()=>{
+      const { maxForPage } = this.state;
+      const lastPage = Math.ceil(+allPokemons.length/maxForPage)
+      const quantityLastPage = allPokemons.length - (maxForPage*(lastPage - 1))
+      this.setState({
+        limit: allPokemons.length,
+        lastPage,
+        quantityLastPage,
+      },()=>{
+        this.listing(0,maxForPage)
+      })
     })
   }
-  listing = async (first,maxForPage,actualPage = 1) =>{
+  listing = async (first,quantity,actualPage=1) =>{
+    const {allPokemons}=this.state;
     this.setState({
       loading:true,
       actualPage,
 
     },async()=>{
-      const pokemons = await getSomePokemons((first),maxForPage)
-      const listingPokemons = pokemons.map((e)=>{
-        return this.setInfoPokemon(e)
-      })
+      let listingPokemons= []
+      for(let i =0;i<quantity;i++){
+        listingPokemons.push(allPokemons[first+i])
+      }
       this.setState({
         listPokemons:listingPokemons,
         listPokemonFiltred:listingPokemons,
         loading:false,
+        first:quantity*actualPage
       })
     })
+  }
+
+  nextPage = ({target})=>{
+    const {lastPage,actualPage,quantityLastPage,maxForPage,first} = this.state;
+    const nextPage =(+actualPage) + (+target.value)
+    if(nextPage <=0 || nextPage > lastPage){
+      return false;
+    }else if(nextPage === lastPage) {
+      this.listing(first,quantityLastPage,nextPage)
+    }
+    else{
+      this.listing(first,maxForPage,nextPage)
+    }
+ 
   }
   setInfoPokemon = (pokemon)=>{
     const spr = setInfo(pokemon.sprites,pokemon.sprites.other['official-artwork'].front_default,['versions','generation-vii','icons','front_default'])
@@ -84,19 +110,7 @@ export default class ListNamePokemons extends Component {
     }
     return obj
   }
-  nextPage = ({target})=>{
-    const {lastPage,actualPage,quantityLastPage,maxForPage,min} = this.state;
-    const nextPage =(+actualPage) + (+target.value)
-    const first = min+((nextPage-1)*maxForPage);
-    if(nextPage <=0 || nextPage > lastPage){
-      return false;
-    }else if(nextPage === lastPage){
-      this.listing(first,quantityLastPage,nextPage)
-    }
-    else{
-      this.listing(first,maxForPage,nextPage)
-    }
-  }
+  
 
   handleChange=({target})=>{
     this.setState({
@@ -129,11 +143,11 @@ export default class ListNamePokemons extends Component {
                 <h1 className='titleWhite'>{name.toLocaleUpperCase()}</h1>
             </div>
             {filterAvalaible? <div className='selectFilterContainer'>
-              <select onChange={this.handleChange}>{pokeTypes.map((e)=>(<option value={e} className={`text${e}`}>{e}</option>))}</select>
+              <select onChange={this.handleChange}>{pokeTypes.map((e)=>(<option key={`filter ${e}`} value={e} className={`text${e}`}>{e}</option>))}</select>
           </div>:''}
            
         {listPokemonFiltred.map((e,index)=>(
-        <div key={index} ><Link className='links textDescriptions pokemonlist' to={`/pokemon/${e.pokedexNumber}`}>
+        <div key={`pokemonFiltred ${index}`} ><Link className='links textDescriptions pokemonlist' to={`/pokemon/${e.pokedexNumber}`}>
           <div>
             <h4 className='pokemonlistText'>{e.pokedexNumber}.{e.name}</h4>
             <div className='pokemonlistText'>
@@ -151,7 +165,6 @@ export default class ListNamePokemons extends Component {
         {actualPage === lastPage?'':<button onClick={this.nextPage} value={+1} className='textStyled  arrows'>{'->'}</button>}
       </div>
       </div>:''}
-     
       </div>
       </div>
     )
