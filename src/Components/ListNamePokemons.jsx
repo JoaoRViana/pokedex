@@ -39,7 +39,9 @@ export default class ListNamePokemons extends Component {
     let pokemons = gen.pokemon_species;
     let allPokemons = await Promise.all(pokemons.map(async (e) => {
       try {
-        let pokemon  = await getPokemon(e.name)
+        const parts = e.url.split('/');
+        const id = parts[parts.length - 2];
+        let pokemon  = await getPokemon(id)
         return this.setInfoPokemon(pokemon)
       } catch (error) {
         console.error(`Error fetching pokemon ${e.name}:`, error);
