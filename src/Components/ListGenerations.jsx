@@ -16,28 +16,18 @@ export default class ListGenerations extends Component {
         },3000)
     }
     getGens = async() =>{
-        let data = await getGenerations()
-        data = data.results;
-        let arr = []
-        let first = 0
-        data.map(async (e)=>{
-            const api = await fetch(e.url)
-            const data = await api.json()
-            const primeiro  = (data.pokemon_species[0].url).indexOf('pokemon-species')
-            let allPokemons = (data.pokemon_species.map((e)=>(+((e.url.slice(primeiro).replace('pokemon-species',''))).replaceAll('/',''))))
-            allPokemons = allPokemons.sort((a,b)=>(a-b))
-            const firstPokemon = allPokemons[0]
+        let data = (await getGenerations()).results
+        let arr = await Promise.all(data.map(async (e) => {
+            const data = await (await fetch(e.url)).json();
             const obj = {
-                name : data.main_region.name,
-                pokemons: data.pokemon_species.length,
-                first : (+firstPokemon)
-            }
-            first = data.pokemon_species.length + first
-            arr.push(obj)
-            arr = arr.sort((a,b)=>a.first-b.first)
-            this.setState({
-                generations:arr,
-            })
+                id:data.id,
+                name:data.main_region.name,
+                quantity:data.pokemon_species.length,
+            };
+            return obj;
+        }));
+        this.setState({
+            generations:arr,
         })
     }
 
@@ -61,12 +51,12 @@ export default class ListGenerations extends Component {
             {generations.map((e,index)=>(
                 <div key={e.name} className=''>
                     <Link className='links region textDescriptions' to={ {
-                    pathname: `/generations/${generations[index].name}`,
+                    pathname: `/generations/${generations[index].id}`,
                     state: { gen: generations[index] } } }
                     ><div>
                         <h3>{index +1}ª Gen</h3>
                         <h1 className='titleGray'>{e.name.toLocaleUpperCase()}</h1>
-                        <h3>{e.pokemons} Pokemons</h3>
+                        <h3>{e.quantity} Pokemons</h3>
                     </div>
                     </Link>
                 </div>
@@ -75,7 +65,6 @@ export default class ListGenerations extends Component {
         <div className='pokeImgInGenContainer'>
         <img src={randomPokemon} alt='pokemon aleatorio' className='pokeImgInGen'></img>
         <img src={randomPokemon2} alt='pokemon aleatorio' className='pokeImgInGen inverted'></img>
-
         </div>
       </div>
     )

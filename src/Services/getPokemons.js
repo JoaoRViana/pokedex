@@ -1,11 +1,9 @@
 
-export const getSomePokemons = async(first,limit) =>{
-  const somePokemons = []
-  for(let i = 0;i<limit;i++){
-    somePokemons.push(getPokemon(first+i))
-  }
-  return await Promise.all(somePokemons);
+export const getPokemonsGen = async(id)=>{
+  const data = await (await fetch(`https://pokeapi.co/api/v2/generation/${id}/`)).json()
+  return data
 }
+
 export const getPokemon = async(id)=>{
   const api = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`)
   const data = await api.json()
