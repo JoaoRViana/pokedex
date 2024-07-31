@@ -22,22 +22,19 @@ export default class ListNamePokemons extends Component {
   }
 
   componentDidMount(){
-    const{history}= this.props
-    try {
       this.setState({
         loading:true,
       },()=>{
         this.getAllPokemons();
       })
-    } catch (error) {
-      history.push('/')
-    }
+    
   }
   getAllPokemons = async() =>{
     const genId = (window.location.href)[window.location.href.length-1];
-    let gen = await getPokemonsGen(genId)
-    let pokemons = gen.pokemon_species;
-    let allPokemons = await Promise.all(pokemons.map(async (e) => {
+    try {
+      let gen = await getPokemonsGen(genId)
+      let pokemons = gen.pokemon_species;
+      let allPokemons = await Promise.all(pokemons.map(async (e) => {
       try {
         const parts = e.url.split('/');
         const id = parts[parts.length - 2];
@@ -64,6 +61,11 @@ export default class ListNamePokemons extends Component {
         this.listing(0,maxForPage)
       })
     })
+    } catch (error) {
+          const{history}= this.props
+          history.push('/')
+    }
+    
   }
   listing = async (first,quantity,actualPage=1) =>{
     const {allPokemons}=this.state;
